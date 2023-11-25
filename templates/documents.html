@@ -1,0 +1,89 @@
+{% load  static%}
+<!DOCTYPE HTML>
+<html>
+
+<head>
+<title>Voidmain</title>
+<link rel="stylesheet" type="text/css" href="{% static '/style/style.css'%}" title="style" />
+</head>
+
+<body>
+	<div id="main">
+		<div id="header">
+			<div id="logo">
+				<div id="logo_text">
+					<!-- class="logo_colour", allows you to change the colour of the text -->
+					<h3>
+						<a href="#"><font color="white">Court Case Management</font></a>
+					</h3>
+					<br/><br/>
+				</div>
+			</div>
+			<div id="menubar">
+				<ul id="menu">
+
+                    {% if request.session.role in "client" or request.session.role in "admin" %}
+                         <li><a href="/getlawyers">Lawyers</a></li>
+                    {% endif %}
+
+                    <li><a href="/getcases">Cases</a></li>
+
+                    {% if request.session.role in "client" or request.session.role in "lawyer" %}
+                         <li><a href="/getappointments">Appointments</a></li>
+                    {% endif %}
+
+                    <li><a href="/logout">logout</a></li>
+
+				</ul>
+			</div>
+		</div>
+		<div id="content_header"></div>
+		<div id="site_content">
+
+            <div id="content">
+				
+				<h1>Welcome to  <strong>{{request.session.username}}</strong>{{form.non_field_errors}}</h1>
+
+                <h1>Status : {{message}}</h1>
+
+				<table style="width: 100%; border-spacing: 0;" border="1">
+
+                    <tr>
+
+                        <td>Document ID</td>
+                        <td>Title</td>
+                        <td>Description</td>
+                        <td>Uploaded on</td>
+                        <td>Download</td>
+
+                        {% if request.session.role in "lawyer" %}
+                            <td>delete</td>
+                        {% endif %}
+
+					</tr>
+					{% for document in documents %}
+
+                        <tr>
+
+                            <td>{{ document.id}}</td>
+                            <td>{{ document.title}}</td>
+                            <td>{{ document.description}}</td>
+                            <td>{{ document.uploaddate}}</td>
+
+                            <td><a href="127.0.0.1:8000/documents/{{document.documentname }}" download>Download</a></td>
+
+                            {% if request.session.role in "lawyer"%}
+                                <td><a href="/deletedocuments?caseid={{document.caseid}}">Delete</a></td>
+                            {% endif %}
+
+					    </tr>
+
+					{% endfor %}
+
+  				</table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+

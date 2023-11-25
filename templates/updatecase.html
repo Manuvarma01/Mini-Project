@@ -1,0 +1,112 @@
+{% load  static%}
+<!DOCTYPE HTML>
+<html>
+
+<head>
+<title>Voidmain</title>
+<link rel="stylesheet" type="text/css" href="{% static 'style/style.css'%}" title="style" />
+</head>
+
+<body>
+	<div id="main">
+		<div id="header">
+			<div id="logo">
+				<div id="logo_text">
+					<!-- class="logo_colour", allows you to change the colour of the text -->
+					<h3>
+						<a href="#"><font color="white">Court Case Management</font></a>
+					</h3>
+					<br/><br/>
+				</div>
+			</div>
+			<div id="menubar">
+				<ul id="menu">
+
+					{% if request.session.role in "client" or request.session.role in "admin" %}
+                         <li><a href="/getlawyers">Lawyers</a></li>
+                    {% endif %}
+
+                    <li><a href="/getcases">Cases</a></li>
+
+                    {% if request.session.role in "client" or request.session.role in "lawyer" %}
+                         <li><a href="/getappointments">Appointments</a></li>
+                    {% endif %}
+
+                    <li><a href="/logout">logout</a></li>
+
+				</ul>
+			</div>
+		</div>
+		<div id="content_header"></div>
+		<div id="site_content">
+			<div id="content">
+
+				<h1>Status : {{message}}</h1>
+
+				<form name="form" action="/updatecaseaction/">
+
+                    {% csrf_token %}
+
+                    <input type="hidden" value="{{ case.id}}" name="caseid">
+
+					<div class="form_settings">
+
+						<p>
+							<span>Title :</span><input class="contact" type="text" name="title" value="{{ case.title }}" readonly/>
+						</p>
+
+						<p>
+							<span>Category:</span><input class="contact" type="text" name="category" value="{{ case.category }}" readonly/>
+						</p>
+
+                        {% if request.session.role in "admin" %}
+                            <p>
+                                <span>Last Hearing Date :</span><input class="contact" type="text" name="lasthearingdate" value="{{ case.lasthearingdate }}" />
+                            </p>
+
+                            <p>
+                                <span>Next Hearing Date:</span><input class="contact" type="text" name="nexthearingdate" value="{{ case.nexthearingdate }}" />
+                            </p>
+
+                            <p>
+							    <span>Description :</span><textarea rows="" cols="" name="description" readonly>{{ case.description }}</textarea>
+						    </p>
+
+                            <p>
+							    <span>Case Status :</span><textarea rows="" cols="" name="casestatus">{{ case.casestatus }}</textarea>
+						    </p>
+
+                        {% endif %}
+
+                        {% if request.session.role in "lawyer" %}
+                            <p>
+                                <span>Last Hearing Date :</span><input class="contact" type="text" name="lasthearingdate" value="{{ case.lasthearingdate }}" readonly/>
+                            </p>
+
+                            <p>
+                                <span>Next Hearing Date:</span><input class="contact" type="text" name="nexthearingdate" value="{{ case.nexthearingdate }}" readonly/>
+                            </p>
+
+                            <p>
+							    <span>Description :</span><textarea rows="" cols="" name="description" >{{ case.description }}</textarea>
+						    </p>
+
+                            <p>
+							<span>Case Status :</span><textarea rows="" cols="" name="casestatus" readonly>{{ case.casestatus }}</textarea>
+						</p>
+
+                        {% endif %}
+
+						<p style="padding-top: 15px">
+							<span>&nbsp;</span><input class="submit" type="submit"
+								name="contact_submitted" value="Update Case" />
+						</p>
+
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</body>
+</html>

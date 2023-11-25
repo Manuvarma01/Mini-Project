@@ -1,0 +1,94 @@
+{% load  static%}
+<!DOCTYPE HTML>
+<html>
+
+<head>
+<title>Voidmain</title>
+<link rel="stylesheet" type="text/css" href="{% static '/style/style.css'%}" title="style" />
+</head>
+
+<body>
+	<div id="main">
+		<div id="header">
+			<div id="logo">
+				<div id="logo_text">
+					<!-- class="logo_colour", allows you to change the colour of the text -->
+					<h3>
+						<a href="#"><font color="white">Court Case Management</font></a>
+					</h3>
+					<br/><br/>
+				</div>
+			</div>
+			<div id="menubar">
+				<ul id="menu">
+
+                    {% if request.session.role in "client" or request.session.role in "admin" %}
+                         <li><a href="/getlawyers">Lawyers</a></li>
+                    {% endif %}
+
+                    <li><a href="/getcases">Cases</a></li>
+
+                    {% if request.session.role in "client" or request.session.role in "lawyer" %}
+                         <li><a href="/getappointments">Appointments</a></li>
+                    {% endif %}
+
+                    <li><a href="/logout">logout</a></li>
+
+				</ul>
+			</div>
+		</div>
+		<div id="content_header"></div>
+		<div id="site_content">
+
+            <div id="content">
+				
+				<h1>Welcome to  <strong>{{request.session.username}}</strong>{{form.non_field_errors}}</h1>
+
+                <h1>Status : {{message}}</h1>
+
+				<table style="width: 100%; border-spacing: 0;" border="1">
+
+                    <tr>
+
+                        <td>Appointment ID</td>
+                        <td>Client</td>
+                        <td>Lawyer</td>
+                        <td>Date</td>
+                        <td>Time</td>
+                        <td>Description</td>
+
+                        {% if request.session.role in "lawyer" %}
+                            <td>update</td>
+                        {% endif %}
+
+                        <td>delete</td>
+
+					</tr>
+					{% for appointment in appointments %}
+
+                        <tr>
+
+                            <td>{{ appointment.id}}</td>
+                            <td>{{ appointment.clientid}}</td>
+                            <td>{{ appointment.lawyerid}}</td>
+                            <td>{{ appointment.appointmentdate}}</td>
+                            <td>{{ appointment.appointmenttime}}</td>
+                            <td>{{ appointment.description}}</td>
+
+                            {% if request.session.role in "lawyer" %}
+                                <td><a href="/updateappointment?appointmentid={{appointment.id}}">update</a></td>
+                            {% endif %}
+
+                            <td><a href="/deleteAppointment?appointmentid={{appointment.id}}">Delete</a></td>
+
+					    </tr>
+
+					{% endfor %}
+
+  				</table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+

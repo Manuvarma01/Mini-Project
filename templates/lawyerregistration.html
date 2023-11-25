@@ -1,0 +1,92 @@
+{% load  static%}
+<!DOCTYPE HTML>
+<html>
+
+<head>
+<title>Voidmain</title>
+<link rel="stylesheet" type="text/css" href="{% static 'style/style.css'%}" title="style" />
+</head>
+
+<body>
+	<div id="main">
+		<div id="header">
+			<div id="logo">
+				<div id="logo_text">
+					<!-- class="logo_colour", allows you to change the colour of the text -->
+					<h3>
+						<a href="#"><font color="white">Court Case Management</font></a>
+					</h3>
+					<br/><br/>
+				</div>
+			</div>
+			<div id="menubar">
+				<ul id="menu">
+
+					<li><a href="/index">Home</a></li>
+					<li><a href="/lawyerregistration">Lawyer Registration</a></li>
+                    <li><a href="/clientregistration">Client Registration</a></li>
+
+				</ul>
+			</div>
+		</div>
+		<div id="content_header"></div>
+		<div id="site_content">
+			<div id="content">
+
+				<h1>Registration Status : {{message}}</h1>
+
+				<form name="form" action="/lawyerregaction/" method="post">
+
+                    {% csrf_token %}
+
+                    <div class="form_settings">
+
+						<p>
+							<span>Name :</span><input class="contact" type="text" name="name" value="" />
+						</p>
+
+						<p>
+							<span>User Name :</span><input class="contact" type="text" name="username" value="" />
+						</p>
+
+						<p>
+							<span>Password :</span><input class="contact" type="password" name="password" value="" />
+						</p>
+
+						<p>
+							<span>Email :</span><input class="contact" type="text" name="email" value="" />
+						</p>
+
+						<p>
+							<span>Mobile :</span><input class="contact" type="text" name="mobile" value="" />
+						</p>
+
+						<p>
+							<span>Address :</span><textarea rows="" cols="" name="address"></textarea>
+						</p>
+
+                        <p>
+							<span>Experience:</span><input class="contact" type="text" name="experience" value="" />
+						</p>
+
+                        <p>
+							<span>Type:</span><input class="contact" type="text" name="type" value="" />
+						</p>
+
+                        <p>
+							<span>Qualification:</span><input class="contact" type="text" name="qualification" value="" />
+						</p>
+
+						<p style="padding-top: 15px">
+							<span>&nbsp;</span><input class="submit" type="submit"
+								name="contact_submitted" value="Register" />
+						</p>
+
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</body>
+</html>
